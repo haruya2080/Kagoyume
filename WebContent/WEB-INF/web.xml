@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <servlet>
+    <servlet-name>Search</servlet-name>
+    <servlet-class>kagoyume.Search</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Item</servlet-name>
+    <servlet-class>kagoyume.Item</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>kagoyume.Login</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Registration</servlet-name>
+    <servlet-class>kagoyume.Registration</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RegistrationConfirm</servlet-name>
+    <servlet-class>kagoyume.RegistrationConfirm</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/Search</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Item</servlet-name>
+    <url-pattern>/Item</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Registration</servlet-name>
+    <url-pattern>/Registration</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegistrationConfirm</servlet-name>
+    <url-pattern>/RegistrationConfirm</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+</web-app>
