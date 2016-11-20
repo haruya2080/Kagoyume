@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 // @WebServlet("/Search")
 public class Item extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String pageName = "/item.jsp";
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,16 +36,20 @@ public class Item extends HttpServlet {
 
 			HttpSession session = request.getSession(true);
 
-			ArrayList<ItemData> items =
-				(ArrayList<ItemData>)session.getAttribute(SessionNameSet.SearchItems);
+			SearchResultData searchResult =
+				(SearchResultData)session.getAttribute(SessionNameSet.SearchResult);
 
-			ItemData item = items.get(id);
+			ItemData item = searchResult.getItem(id);
 
 			session.setAttribute(SessionNameSet.SelectItem, item);
+			// セッションにURIを追加
+			session.setAttribute(SessionNameSet.PageURI, pageName);
 
-			request.getRequestDispatcher("/item.jsp").forward(request, response);
+			request.getRequestDispatcher(pageName).forward(request, response);
 		} catch (Exception e) {
-
+			// 何かしらエラーが出た場合、エラーページに遷移
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 

@@ -27,22 +27,40 @@ public class RegistrationConfirm extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		try {
+			// セッションの作成
+			HttpSession session = request.getSession();
+			//アクセスルートチェック
+	        String accesschk = request.getParameter("ac");
+	        if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+	            throw new Exception("不正なアクセスです");
+	        }
 
-		// UserDataBeansのインスタンス化
-		UserData userData = new UserData();
-		userData.setUserName(request.getParameter("userName"));
-		userData.setPassword(request.getParameter("password"));
-		userData.setEmail(request.getParameter("email"));
-		userData.setAddress(request.getParameter("address"));
+			// UserDataBeansのインスタンス化
+			UserData userData = new UserData();
 
+			userData.setUserName(request.getParameter("userName"));
+			userData.setPassword(request.getParameter("password"));
+			userData.chkRePassword(request.getParameter("rePassword"));
+			userData.setEmail(request.getParameter("email"));
+			userData.setAddress(request.getParameter("address"));
 
+			// セッションにユーザー情報を追加
+			session.setAttribute(SessionNameSet.UserData, userData);
 
-		// セッションの作成
-		HttpSession session = request.getSession();
-		// セッションにユーザー情報を追加
-		session.setAttribute(SessionNameSet.UserData, userData);
+			// 入力に不備がある場合、入力画面に戻る
+			if (userData.chkProperties().size() > 0) {
+				request.getRequestDispatcher("/registration.jsp").forward(request, response);
+				return;
+			}
 
-		request.getRequestDispatcher("/registrationconfirm.jsp").forward(request, response);
+			request.getRequestDispatcher("/registrationconfirm.jsp").forward(request, response);
+		} catch (Exception e) {
+			// 何かしらエラーが出た場合、エラーページに遷移
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
+
 	}
 
 	/**

@@ -1,10 +1,13 @@
 package kagoyume;
 
+import java.util.ArrayList;
+
 public class UserData {
 	private String userName;
 	private String password;
 	private String email;
 	private String address;
+	private boolean notMatchPass;
 
 	/**
 	 * コンストラクタ
@@ -14,6 +17,7 @@ public class UserData {
 		this.password = "";
 		this.email = "";
 		this.address = "";
+		this.notMatchPass = false;
 	}
 
 	/**
@@ -66,6 +70,22 @@ public class UserData {
 	}
 
 	/**
+	 * @return notMatchPass
+	 */
+	public boolean isNotMatchPass() {
+		return notMatchPass;
+	}
+
+	/**
+	 * 再入力パスワードが一致しているか
+	 * @param rePassword
+	 */
+	public void chkRePassword (String rePassword) {
+		// 再入力パスワードとパスワードが一致しているか
+		notMatchPass = !(this.password.equals(rePassword));
+	}
+
+	/**
 	 * DTOへマッピング
 	 * @param dto
 	 */
@@ -85,5 +105,31 @@ public class UserData {
 		this.password = dto.getPassword();
 		this.email = dto.getMail();
 		this.address = dto.getAddress();
+	}
+
+	public ArrayList<String> chkProperties () {
+		ArrayList<String> chkList = new ArrayList<String>();
+
+		if (userName.isEmpty()) {
+			chkList.add("userName");
+		}
+
+		if (password.isEmpty()) {
+			chkList.add("password");
+		}
+
+		if (notMatchPass) {
+			chkList.add("notMatchPass");
+		}
+
+		if (email.isEmpty()) {
+			chkList.add("email");
+		}
+
+		if (address.isEmpty()) {
+			chkList.add("address");
+		}
+
+		return chkList;
 	}
 }

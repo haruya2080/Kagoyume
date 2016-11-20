@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ログイン</title>
+<title>Kagoyume ログイン</title>
 <jsp:include page="bootstrap_head.html" />
 <style type="text/css">
 .login-body {
@@ -72,7 +72,6 @@
 			<div class="checkbox">
 				<label> <input type="checkbox" value="remember-me"> Remember me </label>
 			</div>
-			<input type="hidden" name="action" value="login">
 			<button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
 		</form>
 

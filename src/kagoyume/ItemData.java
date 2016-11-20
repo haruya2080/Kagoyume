@@ -2,15 +2,18 @@ package kagoyume;
 
 public class ItemData {
 	private String name;
+	private String itemCode;
 	private String description;
 	private int value;
 	private String imageURI;
+	private int count;
 
 	/**
 	 * コンストラクタ
 	 */
 	public ItemData () {
 		this.name = "";
+		this.itemCode = "";
 		this.description = "";
 		this.value = -1;
 		this.imageURI = "";
@@ -28,6 +31,21 @@ public class ItemData {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	/**
+	 * @return itemCode
+	 */
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	/**
+	 * @param itemCode セットする itemCode
+	 */
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
 	/**
 	 * @return description
 	 */
@@ -77,5 +95,17 @@ public class ItemData {
 		this.imageURI = imageURI;
 	}
 
+	/**
+	 * @return count
+	 */
+	public int getCount() {
+		return count;
+	}
 
+	/**
+	 * @param count セットする count
+	 */
+	public void setCount(int count) {
+		this.count = count;
+	}
 }

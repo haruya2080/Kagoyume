@@ -20,36 +20,45 @@ public class YahooAPIManager {
 	 * @return 商品データの配列
 	 * @throws IOException
 	 */
-	public static ArrayList<ItemData> searchItems (String searchWord)
+	public static SearchResultData searchItems (String searchWord)
 			throws IOException {
 		String json = getJsonFromAPI(searchWord);
 
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(json);
 
-		// "ResultSet.0.Result"をノードとして取得
-		JsonNode resultNode = rootNode.get("ResultSet").get("0").get("Result");
+		SearchResultData resultData = new SearchResultData();
 
-		ArrayList<ItemData> items = new ArrayList<ItemData>();
+		// "ResultSet"をノードとして取得
+		JsonNode resultSetNode = rootNode.get("ResultSet");
+
+		// 検索結果数を取得
+		String countTxt = resultSetNode.get("totalResultsAvailable").asText();
+		resultData.setCount(countTxt);
+		resultData.setKeyword(searchWord);
+
+		// 検索結果が存在しない場合
+		if (countTxt.equals("0")) { return resultData; }
+
+		// "ResultSet.0.Result"をノードとして取得
+		JsonNode resultNode = resultSetNode.get("0").get("Result");
 
 		for (int i=0; i<20; i++) {
 			JsonNode itemNode = resultNode.get(String.valueOf(i));
 
-			String index = itemNode.get("_attributes").get("index").asText();
-			// 検索結果が存在しない場合
-			if (index == "0") {
-				return null;
-			}
-
 			ItemData itemData = new ItemData();
 			itemData.setName(itemNode.get("Name").asText());
+			itemData.setItemCode(itemNode.get("Code").asText());
 			itemData.setDescription(itemNode.get("Description").asText());
 			itemData.setValue(itemNode.get("Price").get("_value").asText());
 			itemData.setImageURI(itemNode.get("Image").get("Medium").asText());
-			items.add(itemData);
+			// 検索結果にアイテムを追加
+			resultData.addItem(itemData);
+
+
 		}
 
-		return items;
+		return resultData;
 	}
 
 	/**

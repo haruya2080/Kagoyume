@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/RegistrationResult")
 public class RegistrationResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -29,8 +28,13 @@ public class RegistrationResult extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		try {
-			// セッションを作成
+			// セッションの作成
 			HttpSession session = request.getSession();
+			//アクセスルートチェック
+	        String accesschk = request.getParameter("ac");
+	        if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+	            throw new Exception("不正なアクセスです");
+	        }
 
 			// ユーザー情報をセッションから取得
 			UserData userData = (UserData)session.getAttribute(SessionNameSet.UserData);

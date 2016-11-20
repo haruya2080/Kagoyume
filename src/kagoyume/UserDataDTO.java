@@ -1,6 +1,6 @@
 package kagoyume;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class UserDataDTO {
 	private String name;
@@ -8,7 +8,7 @@ public class UserDataDTO {
 	private String mail;
 	private String address;
 	private int total;
-	private Date newDate;
+	private Timestamp newDate;
 	private boolean deleteFlag;
 	/**
 	 * @return name
@@ -73,13 +73,13 @@ public class UserDataDTO {
 	/**
 	 * @return newDate
 	 */
-	public Date getNewDate() {
+	public Timestamp getNewDate() {
 		return newDate;
 	}
 	/**
 	 * @param newDate セットする newDate
 	 */
-	public void setNewDate(Date newDate) {
+	public void setNewDate(Timestamp newDate) {
 		this.newDate = newDate;
 	}
 	/**

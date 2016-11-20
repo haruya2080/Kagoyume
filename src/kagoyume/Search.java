@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String pageName = "/search.jsp";
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,23 +30,31 @@ public class Search extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		// 検索ワードをトップから取得
-		String keyword = request.getParameter("keyword");
-		// System.out.println("keyword : " + keyword);
+		try {
+			// 検索ワードをトップから取得
+			String keyword = request.getParameter("keyword");
+			// System.out.println("keyword : " + keyword);
 
-		// YahooAPIで指定したキーワードを検索
-		ArrayList<ItemData> items = YahooAPIManager.searchItems(keyword);
+			// YahooAPIで指定したキーワードを検索
+			SearchResultData searchResult = YahooAPIManager.searchItems(keyword);
 
-		// セッションの作成
-		HttpSession session = request.getSession(true);
+			// セッションの作成
+			HttpSession session = request.getSession(true);
 
-		// セッションに商品を格納
-		session.setAttribute(SessionNameSet.SearchItems, items);
-		// ログインから戻る際にアクセスするページをセッションに保存
-		session.setAttribute(SessionNameSet.PageURI, "/search.jsp");
+			// セッションに商品を格納
+			session.setAttribute(SessionNameSet.SearchResult, searchResult);
+			// 検索キーワードをセッションに保存
+			session.setAttribute(SessionNameSet.SearchKeyword, keyword);
+			// ログインから戻る際にアクセスするページをセッションに保存
+			session.setAttribute(SessionNameSet.PageURI, pageName);
 
-		// jspファイルに遷移
-		request.getRequestDispatcher("/search.jsp").forward(request, response);
+			// jspファイルに遷移
+			request.getRequestDispatcher(pageName).forward(request, response);
+		} catch (Exception e) {
+			// 何かしらエラーが出た場合、エラーページに遷移
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
 	}
 
 	/**

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/AddCart")
 public class AddCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String pageName = "/add.jsp";
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,8 +46,12 @@ public class AddCart extends HttpServlet {
 		cartItems.add(selectItem);
 		// セッションを更新
 		session.setAttribute(SessionNameSet.CartItems, cartItems);
+
+		// ログインから戻る際にアクセスするページをセッションに保存
+		session.setAttribute(SessionNameSet.PageURI, pageName);
+
 		// カートページに遷移
-		request.getRequestDispatcher("/add.jsp").forward(request, response);
+		request.getRequestDispatcher(pageName).forward(request, response);
 	}
 
 	/**

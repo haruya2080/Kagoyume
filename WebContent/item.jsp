@@ -21,16 +21,18 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"/>
-
-	<div class="card">
-	<img class="card-img-top" src="<%=itemData.getImageURI() %>" alt="Card image cap">
-	<div class="card-block">
-		<h4 class="card-title"><%=itemData.getValue() %>円></h4>
-		<p class="card-text" style="width:30em"><%=itemData.getName() %></p>
+	<div class="jumbotron">
+		<h1>商品詳細</h1>
+		<p><%=itemData.getName() %></p>
+		<p>
+		<img src="<%=itemData.getImageURI() %>" alt="<%=itemData.getName() %>">
+		</p>
+		<p>￥<%=itemData.getValue() %></p>
 		<form action="AddCart" method="POST">
 			<input  type="submit" name="btnSubmit" value="カートに追加" class="btn btn-primary">
 		</form>
+
 	</div>
-</div>
+	<jsp:include page="footer.jsp"/>
 </body>
 </html>

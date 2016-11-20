@@ -33,18 +33,27 @@ public class Login extends HttpServlet {
 		try {
 			// セッションの作成
 			HttpSession session = request.getSession();
-			String action = request.getParameter("action");
+			boolean islogin = (session.getAttribute(SessionNameSet.LoginUser) != null);
 
 			RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
 
-			switch (action) {
-			case "login" :
+			if (islogin) {
+				// 既にログインしているので、ログアウトする
+				// ログイン情報を削除
+				session.removeAttribute(SessionNameSet.LoginUser);
+				session.removeAttribute(SessionNameSet.LoginUserID);
+				// カート情報を削除
+				session.removeAttribute(SessionNameSet.CartItems);
+			} else {
+				// まだログインしていないので、ログインする
 				String password = request.getParameter("password");
 				String userName = request.getParameter("userName");
 
 				if (userName != null && password != null) {
-					if (UserDataDAO.getInstance().existUser(userName, password)) {
+					int userID = UserDataDAO.getInstance().getUserID(userName, password);
+					if (userID >= 0) {
 						session.setAttribute(SessionNameSet.LoginUser, userName);
+						session.setAttribute(SessionNameSet.LoginUserID, userID);
 
 						String pageURI = (String)session.getAttribute(SessionNameSet.PageURI);
 						if (pageURI != null) {
@@ -61,15 +70,6 @@ public class Login extends HttpServlet {
 					// nullが出た場合、statusにnullを入れて遷移先で
 					request.setAttribute("status", "null");
 				}
-				break;
-
-			case "logout" :
-				// ログイン情報を削除
-				session.removeAttribute(SessionNameSet.LoginUser);
-				break;
-
-			default :
-				break;
 			}
 
 			// ページ遷移

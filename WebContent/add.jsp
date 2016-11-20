@@ -9,11 +9,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Kagoyume 追加完了</title>
+<jsp:include page="bootstrap_head.html"/>
 </head>
 <body>
-	<h1>追加完了</h1>
-	<%=itemData.getName() %><br>
-	を追加しました。
+	<jsp:include page="header.jsp"/>
+
+	<div class="jumbotron">
+		<h1>追加完了</h1>
+		<p>"<%=itemData.getName() %>"を追加しました。</p>
+		<p><a href="Cart" class="btn btn-primary">買い物かご</a></p>
+	</div>
+
+	<jsp:include page="footer.jsp"/>
 </body>
 </html>

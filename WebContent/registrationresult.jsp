@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>登録完了</title>
+<title>Kagoyume 登録完了</title>
+<jsp:include page="bootstrap_head.html"/>
 </head>
 <body>
 	<jsp:include page="header.jsp"/>

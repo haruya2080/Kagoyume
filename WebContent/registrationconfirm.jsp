@@ -1,10 +1,18 @@
+<%@page import="kagoyume.KagoyumeHelper"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="kagoyume.SessionNameSet"%>
 <%@page import="kagoyume.UserData"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	KagoyumeHelper helper = KagoyumeHelper.getInstance();
 	// セッションからユーザー情報の取得
 	UserData userData = (UserData)session.getAttribute(SessionNameSet.UserData);
+
+	// 入力情報のチェック
+	ArrayList<String> chkList = userData.chkProperties();
+	// 無効な値が1つ以上あった場合、無効フラグをオン
+	boolean isInvalidProperties = (chkList.size() > 0);
 %>
 <!DOCTYPE html>
 <html>
@@ -32,12 +40,13 @@
 		<p>住所 : <%=userData.getAddress() %></p>
 	<form action="RegistrationResult" method="POST">
 		<div class="button-layout">
+		<input type="hidden" name="ac"  value="<%= session.getAttribute("ac")%>">
 		<button class="btn btn-lg btn-primary btn-block" type="submit">はい</button>
 		</div>
 	</form>
 	<form action="Registration" method="POST">
 		<div class="button-layout">
-		<button class="btn btn-lg btn-primary btn-block" type="submit">いいえ</button>
+		<button class="btn btn-lg btn-info btn-block" type="submit">入力画面に戻る</button>
 		</div>
 	</form>
 	</div> <!-- div container -->
