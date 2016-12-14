@@ -20,9 +20,9 @@ public class YahooAPIManager {
 	 * @return 商品データの配列
 	 * @throws IOException
 	 */
-	public static SearchResultData searchItems (String searchWord)
+	public static SearchResultData searchItems (String searchWord, int page)
 			throws IOException {
-		String json = getJsonFromAPI(searchWord);
+		String json = getJsonFromAPI(searchWord, page);
 
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(json);
@@ -37,13 +37,16 @@ public class YahooAPIManager {
 		resultData.setCount(countTxt);
 		resultData.setKeyword(searchWord);
 
+		// 検索結果
+		int resultCnt = Integer.parseInt(resultSetNode.get("totalResultsReturned").asText());
+
 		// 検索結果が存在しない場合
 		if (countTxt.equals("0")) { return resultData; }
 
 		// "ResultSet.0.Result"をノードとして取得
 		JsonNode resultNode = resultSetNode.get("0").get("Result");
 
-		for (int i=0; i<20; i++) {
+		for (int i=0; i<resultCnt; i++) {
 			JsonNode itemNode = resultNode.get(String.valueOf(i));
 
 			ItemData itemData = new ItemData();
@@ -66,9 +69,9 @@ public class YahooAPIManager {
 	 * @param keyword 検索キーワード
 	 * @return json文字列
 	 */
-	private static String getJsonFromAPI (String keyword) {
+	private static String getJsonFromAPI (String keyword, int page) {
 		try {
-			URL url = new URL(BASE_URI + "?appid=" + APP_ID + "&query=" + keyword + "&hits=20");
+			URL url = new URL(BASE_URI + "?appid=" + APP_ID + "&query=" + keyword + "&hits=20&offset=" + page * 20);
 			HttpURLConnection urlConn = (HttpURLConnection)url.openConnection();
 
 			urlConn.setRequestMethod("GET");

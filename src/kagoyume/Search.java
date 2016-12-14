@@ -35,8 +35,18 @@ public class Search extends HttpServlet {
 			String keyword = request.getParameter("keyword");
 			// System.out.println("keyword : " + keyword);
 
+			String pageTxt = request.getParameter("page");
+
+			int page = 0;
+			if (pageTxt != null) {
+				page = Integer.parseInt(pageTxt);
+			}
+
 			// YahooAPIで指定したキーワードを検索
-			SearchResultData searchResult = YahooAPIManager.searchItems(keyword);
+			SearchResultData searchResult = YahooAPIManager.searchItems(keyword, page);
+
+			// 現在のページを保存
+			searchResult.setPage(page);
 
 			// セッションの作成
 			HttpSession session = request.getSession(true);
@@ -47,7 +57,6 @@ public class Search extends HttpServlet {
 			session.setAttribute(SessionNameSet.SearchKeyword, keyword);
 			// ログインから戻る際にアクセスするページをセッションに保存
 			session.setAttribute(SessionNameSet.PageURI, pageName);
-
 			// jspファイルに遷移
 			request.getRequestDispatcher(pageName).forward(request, response);
 		} catch (Exception e) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class SearchResultData {
 	private String keyword;
 	private int count;
+	private int page;
 	private ArrayList<ItemData> items;
 
 	/**
@@ -93,5 +94,31 @@ public class SearchResultData {
 		} catch (NumberFormatException e) {
 			System.out.println(e.toString());
 		}
+	}
+
+	/**
+	 * @return page
+	 */
+	public int getPage() {
+		return page;
+	}
+
+	/**
+	 * @param page セットする page
+	 */
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	/**
+	 * @return totalPage
+	 */
+	public int getTotalPage() {
+		int totalPage = count / 20;
+		if (count % 20 > 0) {
+			totalPage++;
+		}
+
+		return totalPage;
 	}
 }

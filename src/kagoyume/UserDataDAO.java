@@ -71,6 +71,8 @@ public class UserDataDAO {
 
             System.out.println("searchByID completed");
 
+            //System.out.println("ExistResultSetNext : " + rs.next());
+
             while (rs.next()) {
             	// 削除フラグがないユーザーに限定
             	if (rs.getInt("deleteFlag") == 0) {

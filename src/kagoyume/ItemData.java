@@ -1,6 +1,8 @@
 package kagoyume;
 
-public class ItemData {
+import java.io.Serializable;
+
+public class ItemData implements Serializable {
 	private String name;
 	private String itemCode;
 	private String description;

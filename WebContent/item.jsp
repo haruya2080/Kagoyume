@@ -28,6 +28,7 @@
 		<img src="<%=itemData.getImageURI() %>" alt="<%=itemData.getName() %>">
 		</p>
 		<p>￥<%=itemData.getValue() %></p>
+		<p><%=itemData.getDescription() %></p>
 		<form action="AddCart" method="POST">
 			<input  type="submit" name="btnSubmit" value="カートに追加" class="btn btn-primary">
 		</form>

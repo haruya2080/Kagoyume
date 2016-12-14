@@ -9,6 +9,7 @@
 	// 検索結果がない場合、インスタンス作成
 	if (resultData == null) { resultData = new SearchResultData(); }
 	boolean existItems = (resultData.getCount() > 0);
+	int pageNum = resultData.getPage();
 %>
 <!DOCTYPE html>
 <html lang="jp">
@@ -29,9 +30,18 @@
       		検索結果：<%=resultData.getCountTxt() %>件
       	</p>
 
+      	<p class="lead text-muted">
+      		ページ：<%=resultData.getPage() + 1 %> / <%=resultData.getTotalPage() %>
+      	</p>
+
       	<p>
-      		<a href="#" class="btn btn-secondary">戻る</a>
-      		<a href="#" class="btn btn-primary">次へ</a>
+      		<% if (pageNum > 0) { %>
+      		<a href="Search?keyword=<%=resultData.getKeyword() %>&page=<%=resultData.getPage()-1 %>" class="btn btn-secondary">戻る</a>
+      		<% } %>
+
+				<% if (pageNum < resultData.getTotalPage() - 1) { %>
+      		<a href="Search?keyword=<%=resultData.getKeyword() %>&page=<%=resultData.getPage()+1 %>" class="btn btn-primary">次へ</a>
+      		<% } %>
       	</p>
       </div>
    </section>
